@@ -5,22 +5,15 @@
     justify-content: center;
 }
 
+.frm{
+    margin: 10rem 2.5rem;
+}
+
 li{
-    border: 2px #757575;
-    margin: 5px 2px;
+    font-size: 20px;
+    border: 2px solid #757575;
+    margin: auto;
+    padding: auto 3%;
 }
 
-/*
-li a{
 
-}
-
-li a:active{
-
-}
-
-li a:hover{
-
-}
-
-*/

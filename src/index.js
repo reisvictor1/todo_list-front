@@ -2,39 +2,43 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css'
 
+function ListItem(props){
+
+    return <li>{props.task}</li>   
+
+}
 
 class List extends React.Component{
 
-
- 
+  
     state = {
-        items: []
+        items: [],
+        index: 'secret' // Era só pra testar se eu poderia colocar a chave como um incrementador
     }
-
 
     addItem = (props) => {
 
-       let newItem = document.getElementById('newItem');
-       let listItem = null;
+        let listItems;
+      
+        if(props.value !== ''){
 
-       if(newItem.value !== ""){
-
-            this.state.items.push(props.value)
-            console.log(this.state.items)
-
-            listItem = this.state.items.map(
-
-                (item) =>  <li>{item}</li>
-        
-            )
+            this.state.items.push(props.value);
+            
 
         }else{
-            alert('Coloque um item na lista!')
+            alert('Coloque um item na lista!!')
         }
 
+        listItems = this.state.items.map(
+            (item) => 
+            <ListItem key={item + this.state.index} task={item} />
+            
+        )
 
-        newItem.value = null;
-        ReactDOM.render(listItem,document.getElementById('list'))
+        //this.setState({index: this.state.index +1})
+        props.value = null;
+        console.log(this.state)
+        ReactDOM.render(listItems,document.getElementById('list'))
     }
 
     render(){
@@ -42,10 +46,11 @@ class List extends React.Component{
             <div>
                 <ul id='list' className='list'>  </ul>
 
-               
-                <label htmlFor='newItem'>Adicione tarefas abaixo:</label>
-                <input id='newItem'  type="text"></input>
-                <button onClick={() => this.addItem(document.getElementById('newItem'))} >Adicionar um elemento a lista</button>
+                <div className='frm'>
+                    <label htmlFor='newItem'>Adicione tarefas abaixo:</label>
+                    <input id='newItem'  type="text"></input>
+                    <button onClick={() => this.addItem(document.getElementById('newItem'))} >Adicionar um elemento a lista</button>
+                </div>
             </div>
         )
     }
