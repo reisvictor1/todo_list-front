@@ -13,7 +13,7 @@ class List extends React.Component{
   
     state = {
         items: [],
-        index: 'secret' // Era só pra testar se eu poderia colocar a chave como um incrementador
+        index: 'secret'
     }
 
     addItem = (props) => {
@@ -23,7 +23,7 @@ class List extends React.Component{
         if(props.value !== ''){
 
             this.state.items.push(props.value);
-            
+    
 
         }else{
             alert('Coloque um item na lista!!')
@@ -35,7 +35,6 @@ class List extends React.Component{
             
         )
 
-        //this.setState({index: this.state.index +1})
         props.value = null;
         console.log(this.state)
         ReactDOM.render(listItems,document.getElementById('list'))

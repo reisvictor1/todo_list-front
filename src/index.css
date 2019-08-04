@@ -10,9 +10,10 @@
 }
 
 li{
+    background-color: salmon;
     font-size: 20px;
     border: 2px solid #757575;
-    margin: auto;
+    margin: 5px auto; 
     padding: auto 3%;
 }
 
