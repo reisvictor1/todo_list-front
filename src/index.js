@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css'
+const axios = require('axios')
 
 function ListItem(props){
 
@@ -10,48 +11,66 @@ function ListItem(props){
 
 class List extends React.Component{
 
+    componentDidMount(){
+       axios.get('https://todolistbackend.firebaseio.com/listItem.json')
+       .then((res) => {
+           console.log(res.data)
+           this.setState({items: Object.entries(res.data)});
+       })
+
+    }
   
     state = {
+        data: '',
         items: [],
         index: 'secret'
     }
 
-    addItem = (props) => {
-
-        let listItems;
+    addItem = async (props) => {
       
         if(props.value !== ''){
 
-            this.state.items.push(props.value);
-    
+            axios.post('https://todolistbackend.firebaseio.com/listItem.json',{items: props.value})
+            .then((res) => {
+                console.log(res.data)
+                this.render((this.state.items).map(
+                    ([key, todo]) => {
+                        return <ListItem key={key} task={todo.items} />
+                    }
+                ))
+            })
+            .catch((err) => {
+                console.log('Deu uma merdinha. ' + err)
+            })
 
         }else{
-            alert('Coloque um item na lista!!')
+            alert('Coloque um item no campo')
         }
 
-        listItems = this.state.items.map(
-            (item) => 
-            <ListItem key={item + this.state.index} task={item} />
-            
-        )
-
         props.value = null;
-        console.log(this.state)
-        ReactDOM.render(listItems,document.getElementById('list'))
+        console.log(this.state.items)
+       
     }
 
     render(){
+        
+        let ItemsList = (this.state.items).map(
+            ([key, todo]) => {
+                return <ListItem key={key} task={todo.items} />
+            }
+        )
+
         return(
             <div>
-                <ul id='list' className='list'>  </ul>
-
+                <ul>{ItemsList}</ul>
                 <div className='frm'>
                     <label htmlFor='newItem'>Adicione tarefas abaixo:</label>
-                    <input id='newItem'  type="text"></input>
+                    <input id='newItem' type="text"></input>
                     <button onClick={() => this.addItem(document.getElementById('newItem'))} >Adicionar um elemento a lista</button>
                 </div>
             </div>
         )
+        
     }
 
 }
